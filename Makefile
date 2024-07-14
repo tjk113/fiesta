@@ -1,19 +1,24 @@
-TOPTARGETS := all clean
+CC := gcc
+S := src/
 
-SUBDIRS := $(wildcard */.)
+FLAGS = -I. -std=c17
 
-$(TOPTARGETS): $(SUBDIRS)
-$(SUBDIRS):
-	$(MAKE) -C $@ $(MAKECMDGOALS)
+OBJ_FILES := str/str.o
 
-.PHONY: $(TOPTARGETS) $(SUBDIRS)
+libfiesta.a: $(OBJ_FILES)
+	ar rcs -o $@ $^
 
-all: str
-	ar rcs libfiesta.a str/str.o 
+%.o: %.c
+	$(CC) -c $< -o $@ $(FLAGS)
 
-str:
-	cd str && $(MAKE) $(MAKECMDGOALS)
+dbg: FLAGS += -g
+dbg: libfiesta.a
+
+opt: FLAGS += -O2
+opt: libfiesta.a
+
+lib: libfiesta.a
+	$(RM) $(OBJ_FILES)
 
 clean:
-	$(SUBDIRS):
-	$(MAKE) -C $@ $(MAKECMDGOALS)
+	$(RM) libfiesta.a $(OBJ_FILES)

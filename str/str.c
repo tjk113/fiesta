@@ -1,12 +1,13 @@
+#ifndef _WIN32
+#include <sys/param.h>
+#endif
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
 #include <stdint.h>
 #include <stdio.h>
-#ifndef _WIN32
-#include <sys/param.h>
-#endif
+#include <math.h>
 
 #include "str.h"
 
@@ -94,12 +95,13 @@ void str_free(str string) {
     free(string.data);
 }
 
-void str_set(str* dst, str text) {
-    if (text.len <= dst->len)
-        dst->len = text.len;
+void str_set(str* dst, char* text) {
+    int text_len = strlen(text);
+    if (text_len <= dst->len)
+        dst->len = text_len;
     else
         return; // TODO: error return codes
-    memcpy(dst->data, text.data, dst->len);
+    memcpy(dst->data, text, dst->len);
 }
 
 void str_clear(str* string) {
@@ -124,8 +126,26 @@ str_arr str_split(str src, char delimiter) {
     return split_arr;
 }
 
-bool str_compare(str* a, str* b) {
-    return memcmp(a, b, sizeof(str));
+int str_compare(str* a, str* b) {
+    return strcmp(a->data, b->data);
+}
+
+int str_compare_n(str* a, str* b, int n) {
+    return strncmp(a->data, b->data, n);
+}
+
+void str_to_lower(str* string) {
+    for (int i = 0; i < string->len; i++) {
+        if (string->data[i] >= 'A' && string->data[i] <= 'Z')
+            string->data[i] += ' ';
+    }
+}
+
+void str_to_upper(str* string) {
+    for (int i = 0; i < string->len; i++) {
+        if (string->data[i] >= 'a' && string->data[i] <= 'z')
+            string->data[i] -= ' ';
+    }
 }
 
 void str_print(str string) {
@@ -160,7 +180,7 @@ dynstr dynstr_create_from(char* text) {
     new_str.len = strlen(text);
     /* If `text` is shorter than `DYN_BASE_SIZE`,
     use `DYN_BASE_SIZE` for the cap */
-    new_str.cap = MAX(new_str.len, DYN_BASE_SIZE) * DYN_GROWTH_RATE;
+    new_str.cap = fmax(new_str.len, DYN_BASE_SIZE) * DYN_GROWTH_RATE;
     new_str.data = calloc(new_str.cap, sizeof(char));
     memcpy(new_str.data, text, new_str.len);
     new_str.data[new_str.len] = '\0';
@@ -218,8 +238,26 @@ void dynstr_clear(dynstr* string) {
     string->len = 0;
 }
 
-bool dynstr_compare(dynstr* a, dynstr* b) {
-    return memcmp(a, b, sizeof(dynstr));
+int dynstr_compare(dynstr* a, dynstr* b) {
+    return strcmp(a->data, b->data);
+}
+
+int dynstr_compare_n(dynstr* a, dynstr* b, int n) {
+    return strncmp(a->data, b->data, n);
+}
+
+void dynstr_to_lower(dynstr* string) {
+    for (int i = 0; i < string->len; i++) {
+        if (string->data[i] >= 'A' && string->data[i] <= 'Z')
+            string->data[i] += ' ';
+    }
+}
+
+void dynstr_to_upper(dynstr* string) {
+    for (int i = 0; i < string->len; i++) {
+        if (string->data[i] >= 'a' && string->data[i] <= 'z')
+            string->data[i] -= ' ';
+    }
 }
 
 void dynstr_print(dynstr string) {
