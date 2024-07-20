@@ -27,12 +27,34 @@ h2 {
     padding: 1%;
 }
 
+a {
+    text-decoration: none;
+    cursor: pointer;
+    color: black;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
 .bordered {
     border: 2px solid black;
 }
 
+.bordered.header {
+    padding: 3px;
+    padding-right: 4px;
+}
+
 .nav-wrapper {
     position: relative;
+}
+
+.nav-wrapper #gh-link {
+    position: fixed;
+    top: 0%;
+    left: auto;
+    right: 22.48%;
 }
 
 .nav-wrapper h1 {
@@ -70,16 +92,6 @@ nav .drop-down-elems {
     max-height: 0;
 	overflow: hidden;
 	transition: max-height 0.1s ease-out;
-}
-
-nav a {
-    text-decoration: none;
-    cursor: pointer;
-    color: black;
-}
-
-nav a:hover {
-    text-decoration: underline;
 }
 
 nav a svg {

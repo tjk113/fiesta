@@ -17,7 +17,8 @@ HEAD_HTML = """<!DOCTYPE html>
 </head>
 <body>
     <div class="nav-wrapper">
-        <h1 style="border: 2px solid black; padding: 3px; padding-right: 4px;">fiesta 🎉 docs</h1>
+        <h1 class="bordered header">fiesta 🎉 docs</h1>
+        <h1 id="gh-link" class="bordered header"><a href="https://github.com/tjk113/fiesta">github</a></h1>
         <nav id="nav" class="bordered">
 """
 FOOT_HTML = """</body>
@@ -84,7 +85,7 @@ def get_header_html(text, header_level, id=None, newline=True):
     # SyntaxError: f-string expression part cannot include a backslash
     newline_char = "\n"
     id_html = f'id="{id}"'
-    return f"<h{header_level} {id_html if id else ''}>" + text + f"</h{header_level}>{newline_char if newline else ''}"
+    return f"<h{header_level}{' ' + id_html if id else ''}>" + text + f"</h{header_level}>{newline_char if newline else ''}"
 
 def get_paragraph_html(text):
     return f"<p>{text}</p>\n"
