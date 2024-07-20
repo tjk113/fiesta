@@ -1,5 +1,5 @@
 # fiesta 🎉
-A utility libraries for making C more fun to write!
+A utility library for making C more fun to write!
 
 ## Utilities
 ### str
