@@ -135,11 +135,11 @@ with open(f"{OUT_DIR}/index.html", "w+", encoding="utf-8") as file:
                     write(file, get_nav_link_html(function, 4), indent)
             write(file, "</div>\n", indent - 1)
         indent = 4
-        # Components that don't have categories
-        if len(UTILITY_CATEGORIES[utility]) == 0:
-            for function in UTILITY_FUNCTIONS[utility].keys():
-                write(file, get_nav_link_html(function, 3), indent)
-            write(file, "</div>\n", indent - 1)
+        # # Components that don't have categories
+        # if len(UTILITY_CATEGORIES[utility]) == 0:
+        #     for function in UTILITY_FUNCTIONS[utility].keys():
+        #         write(file, get_nav_link_html(function, 3), indent)
+        #     write(file, "</div>\n", indent - 1)
         indent = 3
         write(file, "</div>\n", indent)
     file.write("""            <div style="clear: both; margin-top: 100%;"></div>

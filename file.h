@@ -27,6 +27,8 @@ typedef enum {
     FilePositionEnd     = SEEK_END
 } FilePositionOrigin;
 
+/* file */
+
 // Open a file with the specified file access mode (modes are
 // selected by bitwise OR'ing FileAccessModes values together;
 // e.g. `FileRead | FileWrite` selects the "r+" access mode).
