@@ -1,11 +1,11 @@
 import sys
 import re
 
-UTILITIES = ["str"]
+UTILITIES = ["str", "file"]
 UTILITY_FUNCTIONS = {utility: {} for utility in UTILITIES}
-UTILITY_MACROS = {"str": ["STR(string)", "DSTR(string)", "STRARR(string_array)"]}
 
-DECLARATION_PATTERN = re.compile(r"(?P<return_type>[0-9a-z_]+)\s+(?P<signature>.+);$")
+DECLARATION_PATTERN = re.compile(r"(?P<return_type>[0-9A-Za-z_]+)\s+(?P<signature>.+);$")
+CODE_PATTERN = re.compile(r"(?P<full>`(?P<text>[^`]+)`)")
 
 HEAD_HTML = """<!DOCTYPE html>
 <html lang="en">
@@ -44,7 +44,7 @@ FOOT_HTML = """</body>
 
 UTILITY_CATEGORIES = {utility: [] for utility in UTILITIES}
 
-TYPENAMES = ["dynstr", "dynstr*", "str_arr", "str_arr*", "str", "str*", "void", "char", "char*", "uint8_t", "int", "int64_t", "double"]
+TYPENAMES = ["dynstr", "str_arr", "str", "File", "FileAccessModes", "FilePositionOrigin", "void", "bool", "char", "uint8_t", "int8_t", "uint16_t", "int16_t", "int", "uint32_t", "int32_t", "ssize_t", "size_t", "uint64_t", "int64_t", "float", "double"]
 
 # Parse utility headers
 for utility in UTILITIES:
@@ -60,10 +60,22 @@ for utility in UTILITIES:
                 cur_doc_strings.append(line[3:])
             elif len(cur_doc_strings) > 0:
                 declaration = DECLARATION_PATTERN.match(line)
-                # Skip over macros
+                # Macros
                 if not declaration:
+                    split = line.split(" ")
+                    # Return the first item in `split` that meets the criteria
+                    # (in this case, it looks for the macro signature)
+                    signature = next(x for x in split if (x != "#define" and x != ""))
+                    function_name = signature.split("(")[0]
+                    UTILITY_FUNCTIONS[utility][function_name] = {
+                        "return_type": "Macro:",
+                        "signature": signature,
+                        "category": category,
+                        "docs": " ".join(cur_doc_strings).replace("\n", "")
+                    }
                     cur_doc_strings = []
                     continue
+                # Functions
                 function_name = declaration.group("signature").split("(")[0]
                 UTILITY_FUNCTIONS[utility][function_name] = {
                     "return_type": declaration.group("return_type"),
@@ -72,7 +84,6 @@ for utility in UTILITIES:
                     "docs": " ".join(cur_doc_strings).replace("\n", "")
                 }
                 cur_doc_strings = []
-                # print(UTILITY_FUNCTIONS[utility][function_name])
 
 def write(file, string, indent):
     file.write(("    " * indent) + string)
@@ -88,6 +99,9 @@ def get_header_html(text, header_level, id=None, newline=True):
     return f"<h{header_level}{' ' + id_html if id else ''}>" + text + f"</h{header_level}>{newline_char if newline else ''}"
 
 def get_paragraph_html(text):
+    code_snippets = CODE_PATTERN.finditer(text)
+    for code_snippet in code_snippets:
+        text = text.replace(code_snippet.group("full"), f"<code>{code_snippet.group('text')}</code>")
     return f"<p>{text}</p>\n"
 
 def get_nav_link_html(function, header_level):
@@ -96,7 +110,8 @@ def get_nav_link_html(function, header_level):
 def get_signature_html(signature):
     highlighted_signature = signature
     for typename in TYPENAMES:
-        highlighted_signature = highlighted_signature.replace(f"{typename} ", f'<span class="typename">{typename}</span> ')
+        highlighted_signature = highlighted_signature.replace(f"{typename}* ", f'<span class="typename">{typename}*</span> ') \
+                                                     .replace(f"{typename} ", f'<span class="typename">{typename}</span> ')
     return highlighted_signature
 
 OUT_DIR = "docs"
@@ -110,6 +125,7 @@ with open(f"{OUT_DIR}/index.html", "w+", encoding="utf-8") as file:
     for utility in UTILITIES:
         indent = 3
         write(file, get_drop_down_html(utility, 2, indent), indent)
+        # Components that have categories
         for category in UTILITY_CATEGORIES[utility]:
             indent = 4
             write(file, get_drop_down_html(category, 3, indent), indent)
@@ -117,6 +133,12 @@ with open(f"{OUT_DIR}/index.html", "w+", encoding="utf-8") as file:
             for function in UTILITY_FUNCTIONS[utility].keys():
                 if UTILITY_FUNCTIONS[utility][function]["category"] == category:
                     write(file, get_nav_link_html(function, 4), indent)
+            write(file, "</div>\n", indent - 1)
+        indent = 4
+        # Components that don't have categories
+        if len(UTILITY_CATEGORIES[utility]) == 0:
+            for function in UTILITY_FUNCTIONS[utility].keys():
+                write(file, get_nav_link_html(function, 3), indent)
             write(file, "</div>\n", indent - 1)
         indent = 3
         write(file, "</div>\n", indent)
