@@ -92,20 +92,20 @@ ssize_t  file_read_f64(File* file, double* buffer, size_t count);
 // the total number of bytes read if successful, or -1 if there was an error. The caller
 // is expected to allocate enough space in `buffer` to hold the read numbers. This is a
 // macro that infers the type of the numbers being read.
-#define  file_read(file,buffer,count)   \
-    _Generic((buffer),                  \
-             void*:     file_read_u8,   \
-             bool*:     file_read_u8,   \
-             int8_t*:   file_read_i8,   \
-             uint8_t*:  file_read_u8,   \
-             int16_t*:  file_read_i16,  \
-             uint16_t*: file_read_u16,  \
-             int32_t*:  file_read_i32,  \
-             uint32_t*: file_read_u32,  \
-             int64_t*:  file_read_i64,  \
-             uint64_t*: file_read_u64,  \
-             float*:    file_read_f32,  \
-             double*:   file_read_f64   \
+#define  file_read(file,buffer,count)  \
+    _Generic((buffer),                 \
+             void*:     file_read_u8,  \
+             bool*:     file_read_u8,  \
+             int8_t*:   file_read_i8,  \
+             uint8_t*:  file_read_u8,  \
+             int16_t*:  file_read_i16, \
+             uint16_t*: file_read_u16, \
+             int32_t*:  file_read_i32, \
+             uint32_t*: file_read_u32, \
+             int64_t*:  file_read_i64, \
+             uint64_t*: file_read_u64, \
+             float*:    file_read_f32, \
+             double*:   file_read_f64  \
     )(file,buffer,count)
 
 // Write a string to a file.
