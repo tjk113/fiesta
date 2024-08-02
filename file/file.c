@@ -128,7 +128,7 @@ FILE_READ_GENERATOR(f32, float)
 FILE_READ_GENERATOR(f64, double)
 
 size_t file_write_str(File* file, str string) {
-    return fwrite(string.data, string.len, 1, file->ptr);
+    return fwrite(string.data, sizeof(uint8_t), string.len, file->ptr);
 }
 
 #define FILE_WRITE_GENERATOR(suffix, type)                                     \
