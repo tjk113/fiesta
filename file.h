@@ -2,6 +2,9 @@
 
 #include <stdint.h>
 #include <stdio.h>
+#ifdef __linux__
+#include <sys/types.h>
+#endif
 
 #include "str.h"
 

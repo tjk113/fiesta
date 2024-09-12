@@ -1,3 +1,8 @@
+#ifdef __linux__
+#define _POSIX_C_SOURCE 200809L
+#define _FILE_OFFSET_BITS 64
+#endif
+
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
@@ -46,7 +51,12 @@ File file_open(str filename, FileAccessModes access_modes) {
     if (file.ptr == NULL)
         file.position = _FILE_NOT_OPEN_POS;
     else
+#ifdef __linux__
+        file.position = ftello(file.ptr);
+#endif
+#ifdef _WIN32
         file.position = _ftelli64(file.ptr);
+#endif
 
     file.access_modes = access_modes;
 
@@ -63,7 +73,12 @@ void file_close(File* file) {
 }
 
 bool file_seek(File* file, int64_t offset, FilePositionOrigin origin) {
+#ifdef __linux__
+    return fseeko(file->ptr, offset, origin);
+#endif
+#ifdef _WIN32
     return _fseeki64(file->ptr, offset, origin);
+#endif
 }
 
 void file_rewind(File* file) {
@@ -73,7 +88,12 @@ void file_rewind(File* file) {
 
 int64_t file_get_length(File* file) {
     file_seek(file, 0, FilePositionEnd);
-    int64_t length = _ftelli64(file->ptr);
+#ifdef __linux__
+    int64_t length = ftello(file->ptr);
+#endif
+#ifdef _WIN32
+    int64_t length = _ftelli64(file.ptr);
+#endif
     file_seek(file, file->position, SEEK_SET);
     return length;
 }
