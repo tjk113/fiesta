@@ -353,3 +353,14 @@ void str_arr_print(str_arr arr) {
     }
     printf("]\n");
 }
+
+str str_arr_to_str(str_arr* arr, str* separator) {
+    dynstr joined = dynstr_create();
+    for (int i = 0; i < arr->len; i++) {
+        dynstr_append_str(&joined, arr->data[i]);
+        if (separator != NULL)
+            dynstr_append_str(&joined, *separator);
+    }
+    str_arr_free(*arr);
+    return dynstr_to_str(&joined);
+}

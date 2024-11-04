@@ -94,7 +94,7 @@ void   dynstr_print(dynstr string);
 void   dynstr_printf(dynstr format, ...);
 // Print a dynamic string with a terminating newline.
 void   dynstr_println(dynstr string);
-// Convert a dynamic string to a fixed-length string.
+// Convert a dynamic string to a fixed-length string. The dynamic string's memory will be freed.
 str    dynstr_to_str(dynstr* src);
 
 /* str_arr */
@@ -115,3 +115,5 @@ void    str_arr_append(str_arr* arr, str new_str);
 str     str_arr_remove(str_arr* arr, int index);
 // Print the contents of a string array.
 void    str_arr_print(str_arr arr);
+// Join together a string array's elements into one string, with an optional separator between elements. Pass `NULL` as the separator if one is not desired. The string array's memory will be freed.
+str     str_arr_to_str(str_arr* arr, str* separator);

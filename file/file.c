@@ -92,7 +92,7 @@ int64_t file_get_length(File* file) {
     int64_t length = ftello(file->ptr);
 #endif
 #ifdef _WIN32
-    int64_t length = _ftelli64(file.ptr);
+    int64_t length = _ftelli64(file->ptr);
 #endif
     file_seek(file, file->position, SEEK_SET);
     return length;
