@@ -74,10 +74,10 @@ void file_close(File* file) {
 
 bool file_seek(File* file, int64_t offset, FilePositionOrigin origin) {
 #ifdef __linux__
-    return fseeko(file->ptr, offset, origin);
+    return !fseeko(file->ptr, offset, origin);
 #endif
 #ifdef _WIN32
-    return _fseeki64(file->ptr, offset, origin);
+    return !_fseeki64(file->ptr, offset, origin);
 #endif
 }
 
