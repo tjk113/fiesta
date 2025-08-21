@@ -48,7 +48,7 @@ TYPENAMES = ["dynstr", "str_arr", "str", "File", "FileAccessModes", "FilePositio
 
 # Parse utility headers
 for utility in UTILITIES:
-    with open(f"{utility}.h", "r", encoding="utf-8") as file:
+    with open(f"include/fiesta/{utility}.h", "r", encoding="utf-8") as file:
         cur_doc_strings = []
         category = None
         for line in file:
@@ -115,7 +115,7 @@ def get_signature_html(signature):
     return highlighted_signature
 
 OUT_DIR = "docs"
-if len(sys.argv) > 0:
+if len(sys.argv) > 1:
     OUT_DIR = sys.argv[1]
 
 # Write docs

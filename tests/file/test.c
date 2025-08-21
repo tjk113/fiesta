@@ -1,10 +1,10 @@
 #include <stdlib.h>
 
-#include "fiesta/file.h"
-#include "fiesta/str.h"
+#include "file.h"
+#include "str.h"
 
 int main(int argc, char* argv[]) {
-    File file = file_open(STR("file\\test_str.txt"), FileRead);
+    File file = file_open(STR("tests/file/test_str.txt"), FileRead);
     if (!file_is_open(file)) {
         printf("failed to open file\n");
         return 1;
@@ -14,7 +14,7 @@ int main(int argc, char* argv[]) {
     str_free(file_text);
     file_close(&file);
 
-    file = file_open(STR("file\\test_i8.txt"), FileRead | FileBinary);
+    file = file_open(STR("tests/file/test_i8"), FileRead | FileBinary);
     if (!file_is_open(file)) {
         printf("failed to open file\n");
         return 1;
@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
     free(nums);
     file_close(&file);
 
-    file = file_open(STR("file\\test_lines.txt"), FileRead);
+    file = file_open(STR("tests/file/test_lines.txt"), FileRead);
     str_arr lines = file_read_lines(&file, 20);
     str_arr_print(lines);
     str_arr_free(lines);

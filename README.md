@@ -4,9 +4,15 @@ A utility library for making C more fun to write!
 ## Utilities
 ### str
 Heap-allocated strings, dynamic strings, and string arrays
+### file
+Convenient wrappers around file IO
 
 ## Building
-For now, just run `make` to build all of the utilities. In the future, support may be added for building only specified parts of the library.
+Here are the available Makefile targets:
+- `lib`: Build the library (**Default**)
+  - `dbg`, `opt`, or `dbgopt` can be used instead of `lib` to create debug, optimized, or optimized debug builds, respectively
+- `test`: Build the library tests
+- `docs`: Build the documentation
 
 ## Usage
-In order to help keep track of this library's external status to your codebase, this library's directories are structured with the intention that the individual utility header files will be prefixed like this: `#include "fiesta/utility.h"`. This is done by including the *parent directory* of the fiesta folder in your build system / command line arguments. If you don't want to prefix the header files like this, include the fiesta folder itself instead. Here is an example of linking the library using gcc, assuming the fiesta directory exists on the same level as the directory in which `example.c` is being compiled: `gcc -o example example.o -L../fiesta -lfiesta -I..`
+Library headers should be prefixed with `fiesta/` when included in your project: `#include "fiesta/str.h"`. Here is an example of how to link with the library using gcc: `gcc -o example example.o -L<fiesta_path>/lib -lfiesta -I<fiesta_path>/include`

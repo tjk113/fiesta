@@ -1,39 +1,62 @@
 CC := gcc
-S := src/
-DOCS_OUT_DIR = docs
+SRC_DIR := src
+DOCS_DIR := docs
+LIB_DIR := lib
+TESTS_DIR := tests
 
-FLAGS = -I. -std=c23
-OBJ_FILES := str/str.o file/file.o
-TEST_EXES := str/test.exe file/test.exe
+# Windows' mkdir doesn't have an
+# equivalent to -p on Linux, so
+# we have a batch script that
+# implements this functionality.
+ifeq ($(OS),Windows_NT)
+    MKDIR := @tools/windows_mkdir.bat
+	EXE_EXT := .exe
+else
+    MKDIR := @mkdir -p
+	EXE_EXT := 
+endif
 
-libfiesta.a: $(OBJ_FILES)
+FLAGS := -Iinclude/fiesta -std=c23
+OBJ_FILES := $(LIB_DIR)/str.o $(LIB_DIR)/file.o
+TEST_EXES := $(TESTS_DIR)/str/test$(EXE_EXT) $(TESTS_DIR)/file/test$(EXE_EXT)
+
+$(LIB_DIR)/libfiesta.a: $(OBJ_FILES)
 	ar rcs -o $@ $^
 
-%.o: %.c
+$(LIB_DIR)/%.o: $(SRC_DIR)/%.c | make_lib_dir
 	$(CC) -c $< -o $@ $(FLAGS)
 
-%/test.exe: %/test.c
-	$(CC) $< -o $@ -L. -lfiesta -I.. -std=c23
+$(TESTS_DIR)/%/test$(EXE_EXT): $(TESTS_DIR)/%/test.c | make_tests_dir
+	$(CC) $< -o $@ -L$(LIB_DIR) -lfiesta -Iinclude/fiesta -std=c23
+
+make_lib_dir:
+	$(MKDIR) $(LIB_DIR)
+
+make_tests_dir:
+	$(MKDIR) $(TESTS_DIR)
+
+make_docs_dir:
+	$(MKDIR) $(DOCS_DIR)
+
+all: lib tests docs
 
 dbg: FLAGS += -g
-dbg: libfiesta.a
+dbg: lib
 
 opt: FLAGS += -O2
-opt: libfiesta.a
+opt: lib
 
 dbgopt: FLAGS += -Og
-dbgopt: $(B)strvm.exe
+dbgopt: lib
 
-tests: libfiesta.a
-tests: $(TEST_EXES)
+lib: $(LIB_DIR)/libfiesta.a
+
+tests: lib $(TEST_EXES)
 
 .PHONY: docs
 
-docs:
-	python docs/make_docs.py $(DOCS_OUT_DIR)
-
-lib: libfiesta.a
-	$(RM) $(OBJ_FILES) $(TEST_EXES)
+docs: | make_docs_dir
+	python tools/make_docs.py $(DOCS_DIR)
 
 clean:
-	$(RM) libfiesta.a $(OBJ_FILES) $(TEST_EXES)
+	$(RM) $(LIB_DIR)/libfiesta.a $(OBJ_FILES) $(TEST_EXES) $(DOCS_DIR)/index.html

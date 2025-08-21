@@ -9,7 +9,8 @@
 #include "str.h"
 
 typedef enum {
-    FileBinary       = 0b0000'0001, // Text mode is implied to be 0
+    FileText         = 0b0000'0000,
+    FileBinary       = 0b0000'0001,
     FileTruncate     = 0b0000'0010,
     FileMustNotExist = 0b0000'0100,
     FileRead         = 0b0000'1000,
