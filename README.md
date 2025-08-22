@@ -3,7 +3,7 @@ A utility library for making C more fun to write!
 
 ## Utilities
 ### str
-Heap-allocated strings, dynamic strings, and string arrays
+Strings, dynamic strings, and string arrays
 ### file
 Convenient wrappers around file IO
 
@@ -11,7 +11,7 @@ Convenient wrappers around file IO
 Here are the available Makefile targets:
 - `lib`: Build the library (**Default**)
   - `dbg`, `opt`, or `dbgopt` can be used instead of `lib` to create debug, optimized, or optimized debug builds, respectively
-- `test`: Build the library tests
+- `tests`: Build the library tests
 - `docs`: Build the documentation
 
 ## Usage

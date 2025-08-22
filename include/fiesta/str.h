@@ -22,32 +22,18 @@ typedef struct {
 
 /* str */
 
-// Create a fixed-length string.
-str     str_create(int len);
 // Create a fixed-length string from a null-terminated source.
 str     str_create_from(char* text);
 // Wrapper around `str_create_from`.
 #define STR(string) str_create_from(string)
-// Free a string's data.
-void    str_free(str string);
-// Set a string's data (up to its fixed length) from a null-terminated source.
-void    str_set(str* dst, char* text);
-// Clear a string's data.
-void    str_clear(str* string);
 // Split a string at a delimiter, returning an array of the resulting strings.
 str_arr str_split(str src, char delimiter);
 // Wrapper around strcmp.
 int     str_compare(str* a, str* b);
 // Wrapper around strncmp.
 int     str_compare_n(str* a, str* b, int n);
-// Replace all uppercase characters in a string with lowercase characters.
-void    str_to_lower(str* string);
-// Replace all lowercase characters in a string with uppercase characters.
-void    str_to_upper(str* string);
-// Print a string without formatting.
+// Print a string.
 void    str_print(str string);
-// Print a string with formatting.
-void    str_printf(str format, ...);
 // Print a string with a terminating newline.
 void    str_println(str string);
 
@@ -56,7 +42,7 @@ int64_t stoi(str s);
 // Convert a string to a double.
 double  stod(str s);
 // Convert a character to a string.
-str     ctos(char c);
+#define ctos(c) (str){.data = (char[]){c, '\0'}, .len = 1}
 // Convert a string to a character (a length of 1 is assumed).
 char    stoc(str s);
 
@@ -88,13 +74,11 @@ int    dynstr_compare_n(dynstr* a, dynstr* b, int n);
 void   dynstr_to_lower(dynstr* string);
 // Replace all lowercase characters in a dynamic string with uppercase characters.
 void   dynstr_to_upper(dynstr* string);
-// Print a dynamic string without formatting.
+// Print a dynamic string.
 void   dynstr_print(dynstr string);
-// Print a dynamic string with formatting.
-void   dynstr_printf(dynstr format, ...);
 // Print a dynamic string with a terminating newline.
 void   dynstr_println(dynstr string);
-// Convert a dynamic string to a fixed-length string. The dynamic string's memory will be freed.
+// Convert a dynamic string to a fixed-length string. The dynamic string's memory must still be freed.
 str    dynstr_to_str(dynstr* src);
 
 /* str_arr */

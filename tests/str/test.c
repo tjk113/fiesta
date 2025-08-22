@@ -5,6 +5,9 @@ int main(int argc, char* argv[]) {
     str normal_str = STR("Hello, Fiesta!");
     str_println(normal_str);
 
+    str character = ctos('a');
+    str_println(character);
+
     dynstr dynamic_str = DSTR("Horse!");
     dynstr_println(dynamic_str);
     dynstr_remove(&dynamic_str, 2, 3);
@@ -13,7 +16,6 @@ int main(int argc, char* argv[]) {
     str_arr split = str_split(normal_str, ' ');
     str_arr_print(split);
 
-    str_free(normal_str);
     dynstr_free(dynamic_str);
     str_arr_free(split);
     return 0;

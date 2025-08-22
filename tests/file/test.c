@@ -11,7 +11,6 @@ int main(int argc, char* argv[]) {
     }
     str file_text = file_read_str(&file, file_get_length(&file));
     str_println(file_text);
-    str_free(file_text);
     file_close(&file);
 
     file = file_open(STR("tests/file/test_i8"), FileRead | FileBinary);

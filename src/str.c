@@ -60,53 +60,15 @@ int64_t stoi(str s) {
 #endif
 }
 
-str ctos(char c) {
-    str character = str_create(1);
-    character.data[0] = c;
-    return character;
-}
-
 char stoc(str s) {
     return s.data[0];
 }
 
-str str_create(int len) {
-    str new_str = {0};
-
-    new_str.data = calloc(len + 1, sizeof(char));
-    new_str.data[len] = '\0';
-    new_str.len = len;
-
-    return new_str;
-}
-
 str str_create_from(char* text) {
-    str new_str = {0};
-
-    new_str.len = strlen(text);
-    new_str.data = calloc(new_str.len + 1, sizeof(char));
-    memcpy(new_str.data, text, new_str.len);
-    new_str.data[new_str.len] = '\0';
-
-    return new_str;
-}
-
-void str_free(str string) {
-    free(string.data);
-}
-
-void str_set(str* dst, char* text) {
-    int text_len = strlen(text);
-    if (text_len <= dst->len)
-        dst->len = text_len;
-    else
-        return; // TODO: error return codes
-    memcpy(dst->data, text, dst->len);
-}
-
-void str_clear(str* string) {
-    memset(string->data, '\0', string->len);
-    string->len = 0;
+    return (str) {
+        .data = text,
+        .len = strlen(text)
+    };
 }
 
 str_arr str_split(str src, char delimiter) {
@@ -134,29 +96,8 @@ int str_compare_n(str* a, str* b, int n) {
     return strncmp(a->data, b->data, n);
 }
 
-void str_to_lower(str* string) {
-    for (int i = 0; i < string->len; i++) {
-        if (string->data[i] >= 'A' && string->data[i] <= 'Z')
-            string->data[i] += ' ';
-    }
-}
-
-void str_to_upper(str* string) {
-    for (int i = 0; i < string->len; i++) {
-        if (string->data[i] >= 'a' && string->data[i] <= 'z')
-            string->data[i] -= ' ';
-    }
-}
-
 void str_print(str string) {
     printf("%s", string.data);
-}
-
-void str_printf(str format, ...) {
-    va_list args = {0};
-    va_start(args, format);
-    vprintf(format.data, args);
-    va_end(args);
 }
 
 void str_println(str string) {
@@ -264,20 +205,12 @@ void dynstr_print(dynstr string) {
     printf("%s", string.data);
 }
 
-void dynstr_printf(dynstr format, ...) {
-    va_list args = {0};
-    va_start(args, format);
-    vprintf(format.data, args);
-    va_end(args);
-}
-
 void dynstr_println(dynstr string) {
     printf("%s\n", string.data);
 }
 
 str dynstr_to_str(dynstr* src) {
     str new_str = str_create_from(src->data);
-    free(src->data);
     return new_str;
 }
 
@@ -311,8 +244,6 @@ str_arr str_arr_create_from(str* arr) {
 }
 
 void str_arr_free(str_arr arr) {
-    for (int i = 0; i < arr.len; i++)
-        str_free(arr.data[i]);
     free(arr.data);
 }
 

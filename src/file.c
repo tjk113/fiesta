@@ -99,10 +99,9 @@ int64_t file_get_length(File* file) {
 }
 
 str file_read_str(File* file, int64_t size) {
-    str string = str_create(size);
-    int bytes_read = 0;
-    bytes_read = fread(string.data, sizeof(uint8_t), size, file->ptr);
-    return string;
+    char buf[8192] = {};
+    fread(buf, sizeof(uint8_t), size, file->ptr);
+    return str_create_from(buf);
 }
 
 str_arr file_read_lines(File* file, int64_t max_line_length) {

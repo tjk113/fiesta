@@ -16,7 +16,7 @@ else
 	EXE_EXT := 
 endif
 
-FLAGS := -Iinclude/fiesta -std=c23
+FLAGS := -Iinclude/fiesta -std=c23 -Wunused-function
 OBJ_FILES := $(LIB_DIR)/str.o $(LIB_DIR)/file.o
 TEST_EXES := $(TESTS_DIR)/str/test$(EXE_EXT) $(TESTS_DIR)/file/test$(EXE_EXT)
 
