@@ -19,9 +19,10 @@ else
 endif
 
 override FLAGS += -I$(INC_DIR) -std=c23
-OBJ_FILES := $(patsubst $(INC_DIR)/%.h, $(LIB_DIR)/%.o, $(wildcard $(INC_DIR)/*.h))
+OBJ_FILES := $(LIB_DIR)/file.o $(LIB_DIR)/str.o
 TEST_EXES := $(patsubst $(TESTS_DIR)/file/%.c, $(TESTS_DIR)/file/%$(EXE_EXT), $(wildcard $(TESTS_DIR)/file/*.c)) \
-			 $(patsubst $(TESTS_DIR)/str/%.c, $(TESTS_DIR)/str/%$(EXE_EXT), $(wildcard $(TESTS_DIR)/str/*.c))
+			 $(patsubst $(TESTS_DIR)/str/%.c, $(TESTS_DIR)/str/%$(EXE_EXT), $(wildcard $(TESTS_DIR)/str/*.c)) \
+			 $(patsubst $(TESTS_DIR)/optional/%.c, $(TESTS_DIR)/optional/%$(EXE_EXT), $(wildcard $(TESTS_DIR)/optional/*.c))
 
 $(LIB_DIR)/libfiesta.a: $(OBJ_FILES)
 	ar rcs -o $@ $^
@@ -33,6 +34,9 @@ $(TESTS_DIR)/file/%$(EXE_EXT): $(TESTS_DIR)/file/%.c | make_tests_dir
 	$(CC) $< -o $@ -L$(LIB_DIR) -lfiesta -Itests $(FLAGS)
 
 $(TESTS_DIR)/str/%$(EXE_EXT): $(TESTS_DIR)/str/%.c | make_tests_dir
+	$(CC) $< -o $@ -L$(LIB_DIR) -lfiesta -Itests $(FLAGS)
+
+$(TESTS_DIR)/optional/%$(EXE_EXT): $(TESTS_DIR)/optional/%.c | make_tests_dir
 	$(CC) $< -o $@ -L$(LIB_DIR) -lfiesta -Itests $(FLAGS)
 
 make_lib_dir:

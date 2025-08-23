@@ -6,6 +6,8 @@ A utility library for making C more fun to write!
 Strings, dynamic strings, and string arrays
 ### file
 Convenient wrappers around file IO
+### optional
+Optional data types
 
 ## Building
 Here are the available Makefile targets:
