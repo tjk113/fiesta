@@ -11,7 +11,7 @@ Convenient wrappers around file IO
 Here are the available Makefile targets:
 - `lib`: Build the library (**Default**)
   - `dbg`, `opt`, or `dbgopt` can be used instead of `lib` to create debug, optimized, or optimized debug builds, respectively
-- `tests`: Build the library tests
+- `test`: Build and run the library tests
 - `docs`: Build the documentation
 
 ## Usage
