@@ -247,6 +247,12 @@ void str_arr_free(str_arr arr) {
     free(arr.data);
 }
 
+void str_arr_free_elements(str_arr arr) {
+    for (int i = 0; i < arr.len; i++)
+        free(arr.data[i].data);
+    str_arr_free(arr);
+}
+
 str str_arr_get(str_arr arr, int index) {
     if (index >= arr.len || index < 0)
         return NULL_STR;
@@ -285,13 +291,17 @@ void str_arr_print(str_arr arr) {
     printf("]\n");
 }
 
-str str_arr_to_str(str_arr* arr, str* separator) {
+str str_arr_to_str(str_arr* arr, str* separator, bool free_elements) {
     dynstr joined = dynstr_create();
     for (int i = 0; i < arr->len; i++) {
         dynstr_append_str(&joined, arr->data[i]);
         if (separator != NULL)
             dynstr_append_str(&joined, *separator);
     }
-    str_arr_free(*arr);
+    if (free_elements)
+        str_arr_free_elements(*arr);
+    else
+        str_arr_free(*arr);
+
     return dynstr_to_str(&joined);
 }

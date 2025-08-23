@@ -52,6 +52,7 @@
                     <a href="#str_arr_create_from"><h4>str_arr_create_from</h4></a>
                     <a href="#STRARR"><h4>STRARR</h4></a>
                     <a href="#str_arr_free"><h4>str_arr_free</h4></a>
+                    <a href="#str_arr_free_elements"><h4>str_arr_free_elements</h4></a>
                     <a href="#str_arr_get"><h4>str_arr_get</h4></a>
                     <a href="#str_arr_append"><h4>str_arr_append</h4></a>
                     <a href="#str_arr_remove"><h4>str_arr_remove</h4></a>
@@ -69,6 +70,7 @@
                     <a href="#file_seek"><h4>file_seek</h4></a>
                     <a href="#file_rewind"><h4>file_rewind</h4></a>
                     <a href="#file_get_length"><h4>file_get_length</h4></a>
+                    <a href="#file_get_position"><h4>file_get_position</h4></a>
                     <a href="#file_read_str"><h4>file_read_str</h4></a>
                     <a href="#file_read_lines"><h4>file_read_lines</h4></a>
                     <a href="#file_read_i8"><h4>file_read_i8</h4></a>
@@ -163,6 +165,8 @@
         <p>Wrapper around <code>str_arr_create_from</code>.</p>
         <h2 id="str_arr_free"><span class="typename">void</span> str_arr_free(<span class="typename">str_arr</span> arr)</h2>
         <p>Free a string array's data.</p>
+        <h2 id="str_arr_free_elements"><span class="typename">void</span> str_arr_free_elements(<span class="typename">str_arr</span> arr)</h2>
+        <p>Free a string array's data, including each element.</p>
         <h2 id="str_arr_get"><span class="typename">str</span> str_arr_get(<span class="typename">str_arr</span> arr, <span class="typename">int</span> index)</h2>
         <p>Get a string from an index into a string array.</p>
         <h2 id="str_arr_append"><span class="typename">void</span> str_arr_append(<span class="typename">str_arr*</span> arr, <span class="typename">str</span> new_str)</h2>
@@ -171,7 +175,7 @@
         <p>Remove the string at an index in a string array.</p>
         <h2 id="str_arr_print"><span class="typename">void</span> str_arr_print(<span class="typename">str_arr</span> arr)</h2>
         <p>Print the contents of a string array.</p>
-        <h2 id="str_arr_to_str"><span class="typename">str</span> str_arr_to_str(<span class="typename">str_arr*</span> arr, <span class="typename">str*</span> separator)</h2>
+        <h2 id="str_arr_to_str"><span class="typename">str</span> str_arr_to_str(<span class="typename">str_arr*</span> arr, <span class="typename">str*</span> separator, <span class="typename">bool</span> free_elements)</h2>
         <p>Join together a string array's elements into one string, with an optional separator between elements. Pass <code>NULL</code> as the separator if one is not desired. The string array's memory will be freed.</p>
         <h1>file</h1>
         <h2 id="file_open"><span class="typename">File</span> file_open(<span class="typename">str</span> filename, <span class="typename">FileAccessModes</span> access_modes)</h2>
@@ -186,6 +190,8 @@
         <p>Rewind a file back to its start.</p>
         <h2 id="file_get_length"><span class="typename">int64_t</span> file_get_length(<span class="typename">File*</span> file)</h2>
         <p>Get a file's length.</p>
+        <h2 id="file_get_position"><span class="typename">int64_t</span> file_get_position(<span class="typename">File</span> file)</h2>
+        <p>Get a file's current position.</p>
         <h2 id="file_read_str"><span class="typename">str</span> file_read_str(<span class="typename">File*</span> file, <span class="typename">int64_t</span> size)</h2>
         <p>Read a string (up to <code>size</code> in length) from a file.</p>
         <h2 id="file_read_lines"><span class="typename">str_arr</span> file_read_lines(<span class="typename">File*</span> file, <span class="typename">int64_t</span> max_line_length)</h2>

@@ -1,8 +1,10 @@
 CC := gcc
 SRC_DIR := src
+INC_DIR := include/fiesta
 DOCS_DIR := docs
 LIB_DIR := lib
 TESTS_DIR := tests
+PYTHON_EXE := python
 
 # Windows' mkdir doesn't have an
 # equivalent to -p on Linux, so
@@ -16,9 +18,10 @@ else
 	EXE_EXT := 
 endif
 
-FLAGS := -Iinclude/fiesta -std=c23 -Wunused-function
-OBJ_FILES := $(LIB_DIR)/str.o $(LIB_DIR)/file.o
-TEST_EXES := $(TESTS_DIR)/str/test$(EXE_EXT) $(TESTS_DIR)/file/test$(EXE_EXT)
+override FLAGS += -I$(INC_DIR) -std=c23
+OBJ_FILES := $(patsubst $(INC_DIR)/%.h, $(LIB_DIR)/%.o, $(wildcard $(INC_DIR)/*.h))
+TEST_EXES := $(patsubst $(TESTS_DIR)/file/%.c, $(TESTS_DIR)/file/%$(EXE_EXT), $(wildcard $(TESTS_DIR)/file/*.c)) \
+			 $(patsubst $(TESTS_DIR)/str/%.c, $(TESTS_DIR)/str/%$(EXE_EXT), $(wildcard $(TESTS_DIR)/str/*.c))
 
 $(LIB_DIR)/libfiesta.a: $(OBJ_FILES)
 	ar rcs -o $@ $^
@@ -26,8 +29,11 @@ $(LIB_DIR)/libfiesta.a: $(OBJ_FILES)
 $(LIB_DIR)/%.o: $(SRC_DIR)/%.c | make_lib_dir
 	$(CC) -c $< -o $@ $(FLAGS)
 
-$(TESTS_DIR)/%/test$(EXE_EXT): $(TESTS_DIR)/%/test.c | make_tests_dir
-	$(CC) $< -o $@ -L$(LIB_DIR) -lfiesta -Iinclude/fiesta -std=c23
+$(TESTS_DIR)/file/%$(EXE_EXT): $(TESTS_DIR)/file/%.c | make_tests_dir
+	$(CC) $< -o $@ -L$(LIB_DIR) -lfiesta -Itests $(FLAGS)
+
+$(TESTS_DIR)/str/%$(EXE_EXT): $(TESTS_DIR)/str/%.c | make_tests_dir
+	$(CC) $< -o $@ -L$(LIB_DIR) -lfiesta -Itests $(FLAGS)
 
 make_lib_dir:
 	$(MKDIR) $(LIB_DIR)
@@ -38,7 +44,7 @@ make_tests_dir:
 make_docs_dir:
 	$(MKDIR) $(DOCS_DIR)
 
-all: lib tests docs
+all: lib docs test
 
 dbg: FLAGS += -g
 dbg: lib
@@ -51,12 +57,13 @@ dbgopt: lib
 
 lib: $(LIB_DIR)/libfiesta.a
 
-tests: lib $(TEST_EXES)
+test: lib $(TEST_EXES)
+	@$(PYTHON_EXE) tools/test.py
 
 .PHONY: docs
 
 docs: | make_docs_dir
-	python tools/make_docs.py $(DOCS_DIR)
+	$(PYTHON_EXE) tools/make_docs.py $(DOCS_DIR)
 
 clean:
 	$(RM) $(LIB_DIR)/libfiesta.a $(OBJ_FILES) $(TEST_EXES) $(DOCS_DIR)/index.html

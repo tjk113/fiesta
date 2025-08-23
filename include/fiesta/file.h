@@ -47,6 +47,8 @@ bool    file_seek(File* file, int64_t offset, FilePositionOrigin origin);
 void    file_rewind(File* file);
 // Get a file's length.
 int64_t file_get_length(File* file);
+// Get a file's current position.
+int64_t file_get_position(File file);
 
 // Read a string (up to `size` in length) from a file.
 str      file_read_str(File* file, int64_t size);

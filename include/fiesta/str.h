@@ -91,6 +91,8 @@ str_arr str_arr_create_from(str* arr);
 #define STRARR(string_array) str_arr_create_from(string_array)
 // Free a string array's data.
 void    str_arr_free(str_arr arr);
+// Free a string array's data, including each element.
+void    str_arr_free_elements(str_arr arr);
 // Get a string from an index into a string array.
 str     str_arr_get(str_arr arr, int index);
 // Append a string to a string array.
@@ -100,4 +102,4 @@ str     str_arr_remove(str_arr* arr, int index);
 // Print the contents of a string array.
 void    str_arr_print(str_arr arr);
 // Join together a string array's elements into one string, with an optional separator between elements. Pass `NULL` as the separator if one is not desired. The string array's memory will be freed.
-str     str_arr_to_str(str_arr* arr, str* separator);
+str     str_arr_to_str(str_arr* arr, str* separator, bool free_elements);

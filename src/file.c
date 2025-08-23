@@ -51,12 +51,7 @@ File file_open(str filename, FileAccessModes access_modes) {
     if (file.ptr == NULL)
         file.position = _FILE_NOT_OPEN_POS;
     else
-#ifdef __linux__
-        file.position = ftello(file.ptr);
-#endif
-#ifdef _WIN32
-        file.position = _ftelli64(file.ptr);
-#endif
+        file.position = file_get_position(file);
 
     file.access_modes = access_modes;
 
@@ -73,48 +68,58 @@ void file_close(File* file) {
 }
 
 bool file_seek(File* file, int64_t offset, FilePositionOrigin origin) {
+    bool result;
 #ifdef __linux__
-    return !fseeko(file->ptr, offset, origin);
+    result = !fseeko(file->ptr, offset, origin);
+#elifdef _WIN32
+    result = !_fseeki64(file->ptr, offset, origin);
 #endif
-#ifdef _WIN32
-    return !_fseeki64(file->ptr, offset, origin);
-#endif
+    file->position = _ftelli64(file->ptr);
+    return result;
 }
 
 void file_rewind(File* file) {
     rewind(file->ptr);
-    file->position = 0;
+    file->position = file_get_position(*file);
 }
 
 int64_t file_get_length(File* file) {
+    int64_t current_position = file_get_position(*file);
     file_seek(file, 0, FilePositionEnd);
-#ifdef __linux__
-    int64_t length = ftello(file->ptr);
-#endif
-#ifdef _WIN32
-    int64_t length = _ftelli64(file->ptr);
-#endif
-    file_seek(file, file->position, SEEK_SET);
+    int64_t length = file_get_position(*file);
+    file_seek(file, current_position, SEEK_SET);
     return length;
+}
+
+int64_t file_get_position(File file) {
+#ifdef __linux__
+    return ftello(file.ptr);
+#elifdef _WIN32
+    return _ftelli64(file.ptr);
+#endif
 }
 
 str file_read_str(File* file, int64_t size) {
     char buf[8192] = {};
     fread(buf, sizeof(uint8_t), size, file->ptr);
-    return str_create_from(buf);
+    file->position = file_get_position(*file);
+    dynstr tmp = DSTR(buf);
+    return dynstr_to_str(&tmp);
 }
 
 str_arr file_read_lines(File* file, int64_t max_line_length) {
     str_arr lines = str_arr_create();
     char line[max_line_length];
     while (fgets(line, max_line_length, file->ptr)) {
-        str line_str = STR(line);
+        dynstr tmp = DSTR(line);
+        str line_str = dynstr_to_str(&tmp);
         // Remove the newlines
         if (line_str.data[line_str.len - 1] == '\n')
             line_str.data[line_str.len - 1] = '\0';
         str_arr_append(&lines, line_str);
         memset(line, 0, max_line_length);
     }
+    file->position = file_get_position(*file);
     return lines;
 }
 
@@ -132,6 +137,7 @@ str_arr file_read_lines(File* file, int64_t max_line_length) {
                     return -1;                                               \
             }                                                                \
         }                                                                    \
+        file->position = file_get_position(*file);                           \
         return bytes_read;                                                   \
     }                                                                        \
 
@@ -147,7 +153,9 @@ FILE_READ_GENERATOR(f32, float)
 FILE_READ_GENERATOR(f64, double)
 
 size_t file_write_str(File* file, str string) {
-    return fwrite(string.data, sizeof(uint8_t), string.len, file->ptr);
+    size_t bytes_written = fwrite(string.data, sizeof(uint8_t), string.len, file->ptr);
+    file->position = file_get_position(*file);
+    return bytes_written;
 }
 
 #define FILE_WRITE_GENERATOR(suffix, type)                                     \
@@ -164,6 +172,7 @@ size_t file_write_str(File* file, str string) {
                     return -1;                                                 \
             }                                                                  \
         }                                                                      \
+        file->position = file_get_position(*file);                             \
         return bytes_written;                                                  \
     }                                                                          \
 
