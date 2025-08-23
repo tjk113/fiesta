@@ -20,8 +20,8 @@
         bool is_none;         \
     } OptionalPtr(type);
 
-// Special case for void*, because void
-// is always a pointer, never a value.
+//\ Special case for void*, because void
+//\ is always a pointer, never a value.
 typedef struct {
     void* val;
     bool is_none;
@@ -50,6 +50,6 @@ DEFINE_OPTIONAL(double)
 // An optional pointer to None.
 #define NonePtr(type) (OptionalPtr(type)){.is_none = true}
 // An optional value of `type`.
-#define Some(type, value) (Optional(type)){.val = (type)value, .is_none = false}
+#define Some(type,value) (Optional(type)){.val = (type)value, .is_none = false}
 // An optional pointer to `type`.
-#define SomePtr(type, value) (OptionalPtr(type)){.val = (type*)value, .is_none = false}
+#define SomePtr(type,value) (OptionalPtr(type)){.val = (type*)value, .is_none = false}

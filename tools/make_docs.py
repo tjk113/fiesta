@@ -1,7 +1,7 @@
 import sys
 import re
 
-UTILITIES = ["str", "file"]
+UTILITIES = ["str", "file", "optional"]
 UTILITY_FUNCTIONS = {utility: {} for utility in UTILITIES}
 
 DECLARATION_PATTERN = re.compile(r"(?P<return_type>[0-9A-Za-z_]+)\s+(?P<signature>.+);$")
@@ -44,7 +44,7 @@ FOOT_HTML = """</body>
 
 UTILITY_CATEGORIES = {utility: [] for utility in UTILITIES}
 
-TYPENAMES = ["dynstr", "str_arr", "str", "File", "FileAccessModes", "FilePositionOrigin", "void", "bool", "char", "uint8_t", "int8_t", "uint16_t", "int16_t", "int", "uint32_t", "int32_t", "ssize_t", "size_t", "uint64_t", "int64_t", "float", "double"]
+TYPENAMES = ["dynstr", "str_arr", "str", "File", "FileAccessModes", "FilePositionOrigin", "Optional", "OptionalPtr", "void", "bool", "char", "uint8_t", "int8_t", "uint16_t", "int16_t", "int", "uint32_t", "int32_t", "ssize_t", "size_t", "uint64_t", "int64_t", "float", "double"]
 
 # Parse utility headers
 for utility in UTILITIES:
