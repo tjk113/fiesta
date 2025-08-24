@@ -74,7 +74,7 @@ bool file_seek(File* file, int64_t offset, FilePositionOrigin origin) {
 #elifdef _WIN32
     result = !_fseeki64(file->ptr, offset, origin);
 #endif
-    file->position = _ftelli64(file->ptr);
+    file->position = file_get_position(*file);
     return result;
 }
 

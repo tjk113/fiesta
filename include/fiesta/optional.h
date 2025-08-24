@@ -1,6 +1,10 @@
 #pragma once
 
+#ifndef _WIN32
+#include <sys/types.h>
+#endif
 #include <stdint.h>
+#include <stddef.h>
 
 /* Optional */
 

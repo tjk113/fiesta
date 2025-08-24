@@ -46,6 +46,7 @@ class TestResult:
 
 DECL_PATTERN = re.compile(r"^([0-9A-Za-z_#]+)\s+(?P<name>[0-9A-Za-z_]+)\(")
 HEADER_DIR = "include/fiesta"
+BUILD_DIR = "build"
 TESTS_DIR = "tests"
 
 Coverage = namedtuple("Coverage", ["percentage", "unused_functions"])
@@ -166,7 +167,7 @@ def run_test(module: str, test_name: str) -> TestResult:
     """Run the provided from the provided module"""
     test_result = TestResult(test_name)
     test_exe_name = os.path.join(
-        TESTS_DIR, module, get_test_exe(test_name)
+        BUILD_DIR, get_test_exe(test_name)
     )
     test_name_expected = os.path.join(
         TESTS_DIR, module, f"{test_name}.expected"
@@ -176,8 +177,7 @@ def run_test(module: str, test_name: str) -> TestResult:
         expected = file.read()
         # TODO: Timeout handling.
         actual = subprocess.run(
-            executable=test_exe_name,
-            args=[],
+            args=[test_exe_name],
             capture_output=True
         )
 
