@@ -46,7 +46,7 @@ class TestResult:
 
 DECL_PATTERN = re.compile(r"^([0-9A-Za-z_#]+)\s+(?P<name>[0-9A-Za-z_]+)\(")
 HEADER_DIR = "include/fiesta"
-BUILD_DIR = "build"
+BUILD_DIR = "lib"
 TESTS_DIR = "tests"
 
 Coverage = namedtuple("Coverage", ["percentage", "unused_functions"])

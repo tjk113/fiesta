@@ -5,16 +5,11 @@ DOCS_DIR := docs
 BUILD_DIR := lib
 TESTS_DIR := tests
 PYTHON_EXE := python
+MKDIR := @mkdir -p
 
-# Windows' mkdir doesn't have an
-# equivalent to -p on Linux, so
-# we have a batch script that
-# implements this functionality.
 ifeq ($(OS),Windows_NT)
-    MKDIR := @tools/windows_mkdir.bat
 	EXE_EXT := .exe
 else
-    MKDIR := @mkdir -p
 	EXE_EXT := 
 endif
 
