@@ -122,9 +122,9 @@
         <p>Wrapper around <code>str_create_from</code>.</p>
         <h2 id="str_split"><span class="typename">str_arr</span> str_split(<span class="typename">str</span> src, <span class="typename">char</span> delimiter)</h2>
         <p>Split a string at a delimiter, returning an array of the resulting strings.</p>
-        <h2 id="str_compare"><span class="typename">int</span> str_compare(<span class="typename">str*</span> a, <span class="typename">str*</span> b)</h2>
+        <h2 id="str_compare"><span class="typename">int</span> str_compare(<span class="typename">str</span> a, <span class="typename">str</span> b)</h2>
         <p>Wrapper around strcmp.</p>
-        <h2 id="str_compare_n"><span class="typename">int</span> str_compare_n(<span class="typename">str*</span> a, <span class="typename">str*</span> b, <span class="typename">int</span> n)</h2>
+        <h2 id="str_compare_n"><span class="typename">int</span> str_compare_n(<span class="typename">str</span> a, <span class="typename">str</span> b, <span class="typename">int</span> n)</h2>
         <p>Wrapper around strncmp.</p>
         <h2 id="str_print"><span class="typename">void</span> str_print(<span class="typename">str</span> string)</h2>
         <p>Print a string.</p>
@@ -156,19 +156,19 @@
         <p>Remove characters from the range [start, end) in a dynamic string.</p>
         <h2 id="dynstr_clear"><span class="typename">void</span> dynstr_clear(<span class="typename">dynstr*</span> string)</h2>
         <p>Clear a dynamic string's data.</p>
-        <h2 id="dynstr_compare"><span class="typename">int</span> dynstr_compare(<span class="typename">dynstr*</span> a, <span class="typename">dynstr*</span> b)</h2>
+        <h2 id="dynstr_compare"><span class="typename">int</span> dynstr_compare(<span class="typename">dynstr</span> a, <span class="typename">dynstr</span> b)</h2>
         <p>Wrapper around strcmp.</p>
-        <h2 id="dynstr_compare_n"><span class="typename">int</span> dynstr_compare_n(<span class="typename">dynstr*</span> a, <span class="typename">dynstr*</span> b, <span class="typename">int</span> n)</h2>
+        <h2 id="dynstr_compare_n"><span class="typename">int</span> dynstr_compare_n(<span class="typename">dynstr</span> a, <span class="typename">dynstr</span> b, <span class="typename">int</span> n)</h2>
         <p>Wrapper around strncmp.</p>
-        <h2 id="dynstr_to_lower"><span class="typename">void</span> dynstr_to_lower(<span class="typename">dynstr*</span> string)</h2>
+        <h2 id="dynstr_to_lower"><span class="typename">void</span> dynstr_to_lower(<span class="typename">dynstr</span> string)</h2>
         <p>Replace all uppercase characters in a dynamic string with lowercase characters.</p>
-        <h2 id="dynstr_to_upper"><span class="typename">void</span> dynstr_to_upper(<span class="typename">dynstr*</span> string)</h2>
+        <h2 id="dynstr_to_upper"><span class="typename">void</span> dynstr_to_upper(<span class="typename">dynstr</span> string)</h2>
         <p>Replace all lowercase characters in a dynamic string with uppercase characters.</p>
         <h2 id="dynstr_print"><span class="typename">void</span> dynstr_print(<span class="typename">dynstr</span> string)</h2>
         <p>Print a dynamic string.</p>
         <h2 id="dynstr_println"><span class="typename">void</span> dynstr_println(<span class="typename">dynstr</span> string)</h2>
         <p>Print a dynamic string with a terminating newline.</p>
-        <h2 id="dynstr_to_str"><span class="typename">str</span> dynstr_to_str(<span class="typename">dynstr*</span> src)</h2>
+        <h2 id="dynstr_to_str"><span class="typename">str</span> dynstr_to_str(<span class="typename">dynstr</span> src)</h2>
         <p>Convert a dynamic string to a fixed-length string. The dynamic string's memory must still be freed.</p>
         <h2 id="str_arr_create"><span class="typename">str_arr</span> str_arr_create()</h2>
         <p>Create a dynamic array of strings.</p>

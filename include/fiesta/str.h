@@ -29,9 +29,9 @@ str     str_create_from(char* text);
 // Split a string at a delimiter, returning an array of the resulting strings.
 str_arr str_split(str src, char delimiter);
 // Wrapper around strcmp.
-int     str_compare(str* a, str* b);
+int     str_compare(str a, str b);
 // Wrapper around strncmp.
-int     str_compare_n(str* a, str* b, int n);
+int     str_compare_n(str a, str b, int n);
 // Print a string.
 void    str_print(str string);
 // Print a string with a terminating newline.
@@ -67,19 +67,19 @@ void   dynstr_remove(dynstr* string, int start, int end);
 // Clear a dynamic string's data.
 void   dynstr_clear(dynstr* string);
 // Wrapper around strcmp.
-int    dynstr_compare(dynstr* a, dynstr* b);
+int    dynstr_compare(dynstr a, dynstr b);
 // Wrapper around strncmp.
-int    dynstr_compare_n(dynstr* a, dynstr* b, int n);
+int    dynstr_compare_n(dynstr a, dynstr b, int n);
 // Replace all uppercase characters in a dynamic string with lowercase characters.
-void   dynstr_to_lower(dynstr* string);
+void   dynstr_to_lower(dynstr string);
 // Replace all lowercase characters in a dynamic string with uppercase characters.
-void   dynstr_to_upper(dynstr* string);
+void   dynstr_to_upper(dynstr string);
 // Print a dynamic string.
 void   dynstr_print(dynstr string);
 // Print a dynamic string with a terminating newline.
 void   dynstr_println(dynstr string);
 // Convert a dynamic string to a fixed-length string. The dynamic string's memory must still be freed.
-str    dynstr_to_str(dynstr* src);
+str    dynstr_to_str(dynstr src);
 
 /* str_arr */
 

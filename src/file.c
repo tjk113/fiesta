@@ -104,7 +104,7 @@ str file_read_str(File* file, int64_t size) {
     fread(buf, sizeof(uint8_t), size, file->ptr);
     file->position = file_get_position(*file);
     dynstr tmp = DSTR(buf);
-    return dynstr_to_str(&tmp);
+    return dynstr_to_str(tmp);
 }
 
 str_arr file_read_lines(File* file, int64_t max_line_length) {
@@ -112,7 +112,7 @@ str_arr file_read_lines(File* file, int64_t max_line_length) {
     char line[max_line_length];
     while (fgets(line, max_line_length, file->ptr)) {
         dynstr tmp = DSTR(line);
-        str line_str = dynstr_to_str(&tmp);
+        str line_str = dynstr_to_str(tmp);
         // Remove the newlines
         if (line_str.data[line_str.len - 1] == '\n')
             line_str.data[line_str.len - 1] = '\0';

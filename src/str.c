@@ -76,24 +76,23 @@ str_arr str_split(str src, char delimiter) {
     str_arr split_arr = str_arr_create();
     for (int i = 0; i < src.len; i++) {
         if (src.data[i] == delimiter) {
-            /* `dynstr_to_str` frees the memory of its str
-            argument, so we can just create a new dynstr */
-            str_arr_append(&split_arr, dynstr_to_str(&cur_split));
+            // Memory is intentionally not freed when appending here.
+            str_arr_append(&split_arr, dynstr_to_str(cur_split));
             cur_split = dynstr_create();
         }
         else
             dynstr_append_char(&cur_split, src.data[i]);
     }
-    str_arr_append(&split_arr, dynstr_to_str(&cur_split));
+    str_arr_append(&split_arr, dynstr_to_str(cur_split));
     return split_arr;
 }
 
-int str_compare(str* a, str* b) {
-    return strcmp(a->data, b->data);
+int str_compare(str a, str b) {
+    return strcmp(a.data, b.data);
 }
 
-int str_compare_n(str* a, str* b, int n) {
-    return strncmp(a->data, b->data, n);
+int str_compare_n(str a, str b, int n) {
+    return strncmp(a.data, b.data, n);
 }
 
 void str_print(str string) {
@@ -179,25 +178,25 @@ void dynstr_clear(dynstr* string) {
     string->len = 0;
 }
 
-int dynstr_compare(dynstr* a, dynstr* b) {
-    return strcmp(a->data, b->data);
+int dynstr_compare(dynstr a, dynstr b) {
+    return strcmp(a.data, b.data);
 }
 
-int dynstr_compare_n(dynstr* a, dynstr* b, int n) {
-    return strncmp(a->data, b->data, n);
+int dynstr_compare_n(dynstr a, dynstr b, int n) {
+    return strncmp(a.data, b.data, n);
 }
 
-void dynstr_to_lower(dynstr* string) {
-    for (int i = 0; i < string->len; i++) {
-        if (string->data[i] >= 'A' && string->data[i] <= 'Z')
-            string->data[i] += ' ';
+void dynstr_to_lower(dynstr string) {
+    for (int i = 0; i < string.len; i++) {
+        if (string.data[i] >= 'A' && string.data[i] <= 'Z')
+            string.data[i] += ' ';
     }
 }
 
-void dynstr_to_upper(dynstr* string) {
-    for (int i = 0; i < string->len; i++) {
-        if (string->data[i] >= 'a' && string->data[i] <= 'z')
-            string->data[i] -= ' ';
+void dynstr_to_upper(dynstr string) {
+    for (int i = 0; i < string.len; i++) {
+        if (string.data[i] >= 'a' && string.data[i] <= 'z')
+            string.data[i] -= ' ';
     }
 }
 
@@ -209,8 +208,8 @@ void dynstr_println(dynstr string) {
     printf("%s\n", string.data);
 }
 
-str dynstr_to_str(dynstr* src) {
-    str new_str = str_create_from(src->data);
+str dynstr_to_str(dynstr src) {
+    str new_str = str_create_from(src.data);
     return new_str;
 }
 
@@ -303,5 +302,5 @@ str str_arr_to_str(str_arr* arr, str* separator, bool free_elements) {
     else
         str_arr_free(*arr);
 
-    return dynstr_to_str(&joined);
+    return dynstr_to_str(joined);
 }
