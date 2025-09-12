@@ -1,5 +1,5 @@
 .vscode/
-build/
+lib/
 *.a
 *.o
 *.exe

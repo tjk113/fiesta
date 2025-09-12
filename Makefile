@@ -2,7 +2,7 @@ CC := gcc
 SRC_DIR := src
 INC_DIR := include/fiesta
 DOCS_DIR := docs
-BUILD_DIR := build
+BUILD_DIR := lib
 TESTS_DIR := tests
 PYTHON_EXE := python
 
