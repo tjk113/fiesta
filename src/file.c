@@ -107,6 +107,23 @@ str file_read_str(File* file, int64_t size) {
     return dynstr_to_str(tmp);
 }
 
+str file_read_until_delimiter(File* file, char delimiter) {
+    // TODO: Read more than 1 character at a time.
+    dynstr string = dynstr_create();
+    char c;
+    while (c = fgetc(file->ptr)) {
+        if (c == delimiter)
+            break;
+        dynstr_append_char(&string, c);
+    }
+    file->position = file_get_position(*file);
+    return dynstr_to_str(string);
+}
+
+str file_read_line(File* file) {
+    return file_read_until_delimiter(file, '\n');
+}
+
 str_arr file_read_lines(File* file, int64_t max_line_length) {
     str_arr lines = str_arr_create();
     char line[max_line_length];

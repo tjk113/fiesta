@@ -52,6 +52,10 @@ int64_t file_get_position(File file);
 
 // Read a string (up to `size` in length) from a file.
 str      file_read_str(File* file, int64_t size);
+// Read a string from a file until `delimiter` is found (or EOF is reached).
+str      file_read_until_delimiter(File* file, char delimiter);
+// Read a line from a file.
+str      file_read_line(File* file);
 // Read the lines (each line being up to `max_line_length` in length) from a file.
 str_arr  file_read_lines(File* file, int64_t max_line_length);
 // Read `count` signed 8-bit integers from a file. This function will return the
