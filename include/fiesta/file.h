@@ -59,44 +59,44 @@ str      file_read_line(File* file);
 // Read the lines (each line being up to `max_line_length` in length) from a file.
 str_arr  file_read_lines(File* file, int64_t max_line_length);
 // Read `count` signed 8-bit integers from a file. This function will return the
-// total number of bytes read if successful, or -1 if there was an error. The caller
-// is expected to allocate enough space in `buffer` to hold the read integers.
+// total number of integers read if successful, or -1 if there was an error. The
+// caller is expected to allocate enough space in `buffer` to hold the read integers.
 ssize_t  file_read_i8(File* file, int8_t* buffer, size_t count);
 // Read `count` unsigned 8-bit integers from a file. This function will return the
-// total number of bytes read if successful, or -1 if there was an error. The caller
-// is expected to allocate enough space in `buffer` to hold the read integers.
+// total number of integers read if successful, or -1 if there was an error. The
+// caller is expected to allocate enough space in `buffer` to hold the read integers.
 ssize_t  file_read_u8(File* file, uint8_t* buffer, size_t count);
 // Read `count` signed 16-bit integers from a file. This function will return the
-// total number of bytes read if successful, or -1 if there was an error. The caller
-// is expected to allocate enough space in `buffer` to hold the read integers.
+// total number of integers read if successful, or -1 if there was an error. The
+// caller is expected to allocate enough space in `buffer` to hold the read integers.
 ssize_t  file_read_i16(File* file, int16_t* buffer, size_t count);
 // Read `count` unsigned 16-bit integers from a file. This function will return the
-// total number of bytes read if successful, or -1 if there was an error. The caller
-// is expected to allocate enough space in `buffer` to hold the read integers.
+// total number of integers read if successful, or -1 if there was an error. The
+// caller is expected to allocate enough space in `buffer` to hold the read integers.
 ssize_t  file_read_u16(File* file, uint16_t* buffer, size_t count);
 // Read `count` signed 32-bit integers from a file. This function will return the
-// total number of bytes read if successful, or -1 if there was an error. The caller
-// is expected to allocate enough space in `buffer` to hold the read integers.
+// total number of integers read if successful, or -1 if there was an error. The
+// caller is expected to allocate enough space in `buffer` to hold the read integers.
 ssize_t  file_read_i32(File* file, int32_t* buffer, size_t count);
 // Read `count` unsigned 32-bit integers from a file. This function will return the
-// total number of bytes read if successful, or -1 if there was an error. The caller
-// is expected to allocate enough space in `buffer` to hold the read integers.
+// total number of integers read if successful, or -1 if there was an error. The
+// caller is expected to allocate enough space in `buffer` to hold the read integers.
 ssize_t  file_read_u32(File* file, uint32_t* buffer, size_t count);
 // Read `count` signed 64-bit integers from a file. This function will return the
-// total number of bytes read if successful, or -1 if there was an error. The caller
-// is expected to allocate enough space in `buffer` to hold the read integers.
+// total number of integers read if successful, or -1 if there was an error. The
+// caller is expected to allocate enough space in `buffer` to hold the read integers.
 ssize_t  file_read_i64(File* file, int64_t* buffer, size_t count);
 // Read `count` usigned 64-bit integers from a file. This function will return the
-// total number of bytes read if successful, or -1 if there was an error. The caller
-// is expected to allocate enough space in `buffer` to hold the read integers..
+// total number of integers read if successful, or -1 if there was an error. The
+// caller is expected to allocate enough space in `buffer` to hold the read integers..
 ssize_t  file_read_u64(File* file, uint64_t* buffer, size_t count);
 // Read `count` 32-bit floating point numbers from a file. This function will return
-// the total number of bytes read if successful, or -1 if there was an error. The caller
-// is expected to allocate enough space in `buffer` to hold the read numbers.
+// the total number of integers read if successful, or -1 if there was an error. The
+// caller is expected to allocate enough space in `buffer` to hold the read numbers.
 ssize_t  file_read_f32(File* file, float* buffer, size_t count);
 // Read `count` 64-bit floating point numbers from a file. This function will return
-// the total number of bytes read if successful, or -1 if there was an error. The caller
-// is expected to allocate enough space in `buffer` to hold the read numbers.
+// the total number of integers read if successful, or -1 if there was an error. The
+// caller is expected to allocate enough space in `buffer` to hold the read numbers.
 ssize_t  file_read_f64(File* file, double* buffer, size_t count);
 // Read `count` integers / floating point numbers from a file. The function will return
 // the total number of bytes read if successful, or -1 if there was an error. The caller
